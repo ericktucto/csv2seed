@@ -32,7 +32,7 @@ def main():
     parser.add_argument('csvfile', help='Path to CSV file')
     parser.add_argument('-i', '--indented', help='Indentation to spaces', type=int)
     args = parser.parse_args()
-    indented = args.indented if args.indented else " " * 4
+    indented = " " * args.indented if args.indented else " " * 4
     run(args.csvfile, indented)
 
 if __name__ == '__main__':
