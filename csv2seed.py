@@ -32,12 +32,14 @@ def main():
     parser.add_argument('csvfile', help='Path to CSV file')
     parser.add_argument('-s', '--spaces', help='Indentation to spaces', type=int)
     parser.add_argument('-t', '--tabulation', help='Indentation to tabulation', action='store_true')
+    parser.add_argument('-d', '--delimiter', help='Delimiter to columns, default = ;')
     args = parser.parse_args()
 
     indented = " " * args.spaces if args.spaces else " " * 4
     indented = "\t" if args.tabulation else indented
+    delimiter = args.delimiter if args.delimiter else ";"
 
-    run(args.csvfile, indented)
+    run(args.csvfile, indented, delimiter)
 
 if __name__ == '__main__':
     main()
