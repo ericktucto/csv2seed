@@ -1,11 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from sys import argv
 from os.path import splitext, basename, dirname
 import csv
-
-file_csv = argv[1]
+import argparse
 
 
 def getFileName(file):
@@ -13,8 +10,8 @@ def getFileName(file):
     return splitext(base)[0]
 
 
-def run():
-    with open(file_csv, newline='') as csvfile:
+def run(csv_file):
+    with open(csv_file, newline='') as csvfile:
         spamreader = csv.DictReader(csvfile, delimiter=";")
         seeder = ""
         for data in spamreader:
@@ -31,4 +28,11 @@ def run():
         f.write(seeder)
 
 
-run()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('csvfile', help='Path to CSV file')
+    args = parser.parse_args()
+    run(args.csvfile)
+
+if __name__ == '__main__':
+    main()
