@@ -30,9 +30,13 @@ def run(csv_file, indented=" " * 4, delimiter=";"):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('csvfile', help='Path to CSV file')
-    parser.add_argument('-i', '--indented', help='Indentation to spaces', type=int)
+    parser.add_argument('-s', '--spaces', help='Indentation to spaces', type=int)
+    parser.add_argument('-t', '--tabulation', help='Indentation to tabulation', action='store_true')
     args = parser.parse_args()
-    indented = " " * args.indented if args.indented else " " * 4
+
+    indented = " " * args.spaces if args.spaces else " " * 4
+    indented = "\t" if args.tabulation else indented
+
     run(args.csvfile, indented)
 
 if __name__ == '__main__':
