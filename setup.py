@@ -11,7 +11,7 @@ setup(
     keywords=['csv', 'laravel', 'seeders', 'seed', 'converter', 'generator'],
     packages=['csv2seed'],
     entry_points={
-        'console_scripts': ['csv2seed = csv2seed.converter:main']
+        'console_scripts': ['csv2seed = csv2seed.cli:main']
     },
     licence='MIT'
 )
