@@ -15,12 +15,15 @@ from csv2seed.converter import run
               default=";")
 @click.option('-m', '--model', help='Set name model', default=None)
 @click.option('-a', '--attributes',
-              help='Set with tuple the attributes to model')
-def main(csvfile, spaces, tabulation, delimiter, model, attributes):
+              help='Set attributes to model')
+@click.option('-H', '--hasnt-header', help='Indicate if it have a header',
+              is_flag=True, default=True)
+def main(csvfile, spaces, tabulation, delimiter, model, attributes,
+         hasnt_header):
     attributes = tuple(attributes.split(",")) if attributes else None
     indented = "\t" if tabulation else " " * spaces
 
-    run(csvfile, indented, delimiter, model, attributes)
+    run(csvfile, indented, delimiter, model, attributes, hasnt_header)
 
 
 if __name__ == '__main__':

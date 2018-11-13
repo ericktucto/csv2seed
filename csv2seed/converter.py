@@ -13,18 +13,24 @@ def getFileName(file):
 
 
 def run(csv_file, indented=" " * 4, delimiter=";", model=None,
-        attributes=None):
+        attributes=None, has_header=True):
     with open(csv_file, newline='') as csvfile:
         seeder = ""
         file_name = getFileName(csvfile.name)
         model = file_name.capitalize() if not model else model
         if attributes:
+            first = True
             for data in csv.reader(csvfile, delimiter=delimiter):
                 content = ""
-                for i, attribute in enumerate(attributes):
-                    value = data[i]
-                    content += f'{indented}"{attribute}" => "{value}",\n'
-                seeder += template.format(model=model, attributes=content[:-2])
+                if has_header and first:
+                    first = False
+                    pass
+                else:
+                    for i, attribute in enumerate(attributes):
+                        value = data[i]
+                        content += f'{indented}"{attribute}" => "{value}",\n'
+                    seeder += template.format(model=model, attributes=content[:-2])
+                first = False
         else:
             for data in csv.DictReader(csvfile, delimiter=delimiter):
                 content = ""
