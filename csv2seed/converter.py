@@ -27,10 +27,10 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
         seeder = ""
         file_name = getFileName(csvfile.name)
         model = model or file_name.capitalize()
-        if attributes:
-            first = True
-            for data in rowCSVFile(csvfile, delimiter=delimiter, attributes=attributes):
-                content = ""
+        first = True
+        for data in rowCSVFile(csvfile, delimiter=delimiter, attributes=attributes):
+            content = ""
+            if attributes:
                 if has_header and first:
                     first = False
                     pass
@@ -40,9 +40,7 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
                         content += f'{indented}"{attribute}" => "{value}",\n'
                     seeder += template.format(model=model, attributes=content[:-2])
                 first = False
-        else:
-            for data in rowCSVFile(csvfile, delimiter=delimiter, attributes=attributes):
-                content = ""
+            else:
                 for attribute in list(data.keys()):
                     value = data[attribute]
                     content += f'{indented}"{attribute}" => "{value}",\n'
