@@ -14,10 +14,13 @@ from csv2seed.converter import run
 @click.option('-d', '--delimiter', help='Delimiter to columns, default = ;',
               default=";")
 @click.option('-m', '--model', help='Set name model', default=None)
-def main(csvfile, spaces, tabulation, delimiter, model):
+@click.option('-a', '--attributes',
+              help='Set with tuple the attributes to model')
+def main(csvfile, spaces, tabulation, delimiter, model, attributes):
+    attributes = tuple(attributes.split(",")) if attributes else None
     indented = "\t" if tabulation else " " * spaces
 
-    run(csvfile, indented, delimiter, model)
+    run(csvfile, indented, delimiter, model, attributes)
 
 
 if __name__ == '__main__':
