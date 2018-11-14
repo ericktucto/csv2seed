@@ -22,19 +22,18 @@ def rowCSVFile(csvfile, delimiter=";", attributes=None):
 
 
 def run(csv_file, indented=" " * 4, delimiter=";", model=None,
-        attributes=None, has_header=True):
+        attributes=None, has_header=False):
     with open(csv_file, newline='') as csvfile:
         seeder = ""
         file_name = getFileName(csvfile.name)
         model = model or file_name.capitalize()
-        first = True
-        for data in rowCSVFile(csvfile, delimiter, attributes):
-            first = False
-            if attributes and has_header and first:
-                continue
+        include_header = attributes and not has_header
+        reader = csv.DictReader(csvfile, delimiter=delimiter)
+        for data in reader:
             content = ""
-            for i, attribute in enumerate(attributes or tuple(data.keys())):
-                value = data[attribute] if not attributes else tuple(data)[i]
+            attributes = attributes or tuple(data)
+            for i, attribute in enumerate(attributes):
+                value = tuple(data.values())[i]
                 content += f'{indented}"{attribute}" => "{value}",\n'
             seeder += template.format(model=model, attributes=content[:-2])
         seeder_file = f"{dirname(csvfile.name)}/{file_name}.txt"
