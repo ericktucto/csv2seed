@@ -32,6 +32,11 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
         for data in reader:
             content = ""
             attributes = attributes or tuple(data)
+            if include_header:
+                content = "\n".join(['%s"%s" => "%s",' % (indented, attribute, tuple(data.keys())[i]) for i, attribute in enumerate(attributes)])
+                seeder += template.format(model=model, attributes=content[:-2])
+                include_header = False
+                content = ""
             for i, attribute in enumerate(attributes):
                 value = tuple(data.values())[i]
                 content += f'{indented}"{attribute}" => "{value}",\n'
