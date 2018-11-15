@@ -12,15 +12,6 @@ def getFileName(file):
     return splitext(base)[0]
 
 
-def rowCSVFile(csvfile, delimiter=";", attributes=None):
-    if attributes:
-        for row in csv.reader(csvfile, delimiter=delimiter):
-            yield row
-    else:
-        for row in csv.DictReader(csvfile, delimiter=delimiter):
-            yield row
-
-
 def run(csv_file, indented=" " * 4, delimiter=";", model=None,
         attributes=None, has_header=False):
     with open(csv_file, newline='') as csvfile:
@@ -33,7 +24,11 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
             content = ""
             attributes = attributes or tuple(data)
             if include_header:
-                content = "\n".join(['%s"%s" => "%s",' % (indented, attribute, tuple(data.keys())[i]) for i, attribute in enumerate(attributes)])
+                content = "\n".join([
+                    '%s"%s" => "%s",' %
+                    (indented, attribute, tuple(data.keys())[i])
+                    for i, attribute in enumerate(attributes)
+                ])
                 seeder += template.format(model=model, attributes=content[:-2])
                 include_header = False
                 content = ""
