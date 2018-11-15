@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='csv2seed',
-    version="0.1beta",
+    version="0.1.0",
     description='CSV file converter to Laravel Seeders',
     author='Erick Tucto',
     author_email='erick.tucto@outlook.com',

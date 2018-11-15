@@ -32,9 +32,11 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
                 seeder += template.format(model=model, attributes=content[:-2])
                 include_header = False
                 content = ""
-            for i, attribute in enumerate(attributes):
-                value = tuple(data.values())[i]
-                content += f'{indented}"{attribute}" => "{value}",\n'
+            content += "\n".join([
+                '%s"%s" => "%s",' %
+                (indented, attribute, tuple(data.values())[i])
+                for i, attribute in enumerate(attributes)
+            ])
             seeder += template.format(model=model, attributes=content[:-2])
         seeder_file = f"{dirname(csvfile.name)}/{file_name}.txt"
         f = open(seeder_file, "w")
