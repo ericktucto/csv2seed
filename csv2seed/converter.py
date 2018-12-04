@@ -33,7 +33,7 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
                     (indented, attribute, tuple(data.keys())[i])
                     for i, attribute in enumerate(attributes)
                 ])
-                seeder += template.format(model=model, attributes=content[:-2])
+                seeder += template.format(model=model, attributes=content[:-1])
                 include_header = False
                 content = ""
             content += "\n".join([
@@ -41,8 +41,8 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
                 (indented, attribute, tuple(data.values())[i])
                 for i, attribute in enumerate(attributes)
             ])
-            seeder += template.format(model=model, attributes=content[:-2])
-        seeder_file = f"{getAbsolutePath(csv_file)}/{file_name}.txt"
+            seeder += template.format(model=model, attributes=content[:-1])
+        seeder_file = "%s/%s.txt" % (getAbsolutePath(csv_file), file_name)
         f = open(seeder_file, "w")
         f.write(seeder)
         f.close()
