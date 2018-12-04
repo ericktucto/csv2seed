@@ -1,4 +1,4 @@
-from os.path import splitext, basename, dirname
+from os.path import splitext, basename, abspath, dirname
 import csv
 
 template = """{model}::create([
@@ -10,6 +10,10 @@ template = """{model}::create([
 def getFileName(file):
     base = basename(file)
     return splitext(base)[0]
+
+
+def getAbsolutePath(file):
+    return dirname(abspath(file))
 
 
 def run(csv_file, indented=" " * 4, delimiter=";", model=None,
@@ -38,7 +42,7 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
                 for i, attribute in enumerate(attributes)
             ])
             seeder += template.format(model=model, attributes=content[:-2])
-        seeder_file = f"{dirname(csvfile.name)}/{file_name}.txt"
+        seeder_file = f"{getAbsolutePath(csv_file)}/{file_name}.txt"
         f = open(seeder_file, "w")
         f.write(seeder)
         f.close()
