@@ -16,6 +16,14 @@ def getAbsolutePath(file):
     return dirname(abspath(file))
 
 
+def generateContent(indented, attributes, data):
+    return "\n".join([
+        '%s"%s" => "%s",' %
+        (indented, attribute, tuple(data)[index])
+        for index, attribute in enumerate(attributes)
+    ])
+
+
 def run(csv_file, indented=" " * 4, delimiter=";", model=None,
         attributes=None, has_header=False):
     with open(csv_file, newline='') as csvfile:
@@ -28,19 +36,11 @@ def run(csv_file, indented=" " * 4, delimiter=";", model=None,
             content = ""
             attributes = attributes or tuple(data)
             if include_header:
-                content = "\n".join([
-                    '%s"%s" => "%s",' %
-                    (indented, attribute, tuple(data.keys())[i])
-                    for i, attribute in enumerate(attributes)
-                ])
+                content = generateContent(indented, attributes, data.keys())
                 seeder += template.format(model=model, attributes=content[:-1])
                 include_header = False
                 content = ""
-            content += "\n".join([
-                '%s"%s" => "%s",' %
-                (indented, attribute, tuple(data.values())[i])
-                for i, attribute in enumerate(attributes)
-            ])
+            content = generateContent(indented, attributes, data.values())
             seeder += template.format(model=model, attributes=content[:-1])
         seeder_file = "%s/%s.txt" % (getAbsolutePath(csv_file), file_name)
         f = open(seeder_file, "w")
