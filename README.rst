@@ -2,7 +2,7 @@
 CSV2SEED
 ********
 
-Version number: 0.1.0
+Version number: 0.2.*
 
 Author: `Erick Tucto`_
 
